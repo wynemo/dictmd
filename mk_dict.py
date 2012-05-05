@@ -1,7 +1,6 @@
 ﻿#!/usr/bin/env python
 #coding:utf-8
 import re
-import sys
 import urllib2
 std_headers = {
     'User-Agent': 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.12) Gecko/20101028 Firefox/3.6.12',
@@ -11,9 +10,9 @@ std_headers = {
                 }
                 
 bootstrap_css = '<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">'
-def get_dict_html_str():
+def get_dict_html_str(word):
     url1='http://www.google.com/search?hl=en&tbs=dfn:1&q='
-    request = urllib2.Request(url1+sys.argv[1], None, std_headers)
+    request = urllib2.Request(url1 + word, None, std_headers)
     i1 = urllib2.urlopen(request)
     str1=i1.read()
     i1.close()
@@ -24,13 +23,14 @@ def get_dict_html_str():
     if o1:
         g1=o1.group()
         rt_str = re.sub(pattern2,'',g1,1,re.S|re.I|re.X)
-        rv += '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>' + sys.argv[1] + '</title>' + bootstrap_css + '</head><body>'
+        rv += '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>' + word + '</title>' + bootstrap_css + '</head><body>'
         rv += rt_str 
         rv += '</body></html>'
     return rv
 
 def main():
-    print get_dict_html_str()
+    import sys
+    print get_dict_html_str(sys.argv[1])
 
 if __name__=="__main__":
     main() 
