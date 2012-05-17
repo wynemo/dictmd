@@ -25,7 +25,7 @@ def get_header(str1):
     
 
 def get_list(str1):
-    li_pattern = r'<li[^>]*>(.+?)<div.*?</li>'
+    li_pattern = r'<li[^>]*>(.+?)<div.*?<ul>.*?</ul>.*?</li>'
     o1 = re.finditer(li_pattern,str1,re.I|re.S)
     if o1 is not None:
         for i,each in enumerate(o1):
