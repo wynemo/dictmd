@@ -11,6 +11,7 @@ std_headers = {
                 
 bootstrap_css = '<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">'
 def get_dict_html_str(word):
+    flag = re.S|re.I|re.X
     url1='http://www.google.com/search?hl=en&tbs=dfn:1&q='
     request = urllib2.Request(url1 + word, None, std_headers)
     i1 = urllib2.urlopen(request)
@@ -19,10 +20,11 @@ def get_dict_html_str(word):
     pattern1=r'<\s*?div\s+?id\s*?=\s*?"\s*?ires\s*?".+<\s*?/\s*?ol\s*?>\s*?<\s*?/div\s*?>'
     pattern2=r'<\s*?h5.+?>\s*?Web\s+definitions.+?(?=</ol>)'
     rv = ''
-    o1=re.search(pattern1,str1,re.S|re.I|re.X)
+    o1=re.search(pattern1,str1,flag)
     if o1:
         g1=o1.group()
-        rt_str = re.sub(pattern2,'',g1,1,re.S|re.I|re.X)
+        pattern2 = re.compile(pattern2,flag)
+        rt_str = re.sub(pattern2,'',g1,1)
         rv += '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>' + word + '</title>' + bootstrap_css + '</head><body>'
         rv += rt_str 
         rv += '</body></html>'
